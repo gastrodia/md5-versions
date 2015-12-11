@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+console.log('md5-versions')
+var argv = require('minimist')(process.argv.slice(2));
+
+var md5Versions = require('../lib/index');
+
+var path = require('path');
+var basedir = process.cwd();
+
+
+var options = {
+	release:'./release',
+	source:'./',
+	md5Files:[
+	'./**/*.js',
+	'./**/*.json',
+	'./**/*.png',
+	'./**/*.png'
+	]
+}
+
+try{
+	var configPath = path.join(basedir,'./versions.config.js')
+	var config = require(configPath);
+	options = config;
+}catch(e){
+	console.log("can't find versions.config.js , use deafult config: ");
+	console.log(options);
+}
+
+options.basedir = basedir;
+
+
+
+md5Versions.exec(options);
